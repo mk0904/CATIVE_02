@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CATIVE Project Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+    <script src="data.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar glass-panel">
+            <div class="logo">
+                <h1>CATIVE</h1>
+                <p>Company Assessment Through Integrated Vector Embeddings</p>
+            </div>
+            <ul class="nav-links">
+                <li class="active" data-target="overview">Overview</li>
+                <li data-target="interactive">Interactive Explorer</li>
+                <li data-target="architecture">Architecture</li>
+                <li data-target="ablation">Results & Ablation</li>
+                <li data-target="diagnostic">Diagnostic Analysis</li>
+                <li data-target="interpretability">Interpretability</li>
+                <li data-target="eda">EDA Gallery</li>
+            </ul>
+        </nav>
+
+        <!-- Main Content Area -->
+        <main class="content-area">
+            
+            <!-- SECTION: OVERVIEW -->
+            <section id="overview" class="view-section active">
+                <header>
+                    <h2 class="gradient-text">Project Overview</h2>
+                    <p class="subtitle">Multimodal Machine Learning for Startup Hiring Quality</p>
+                </header>
+                <div class="grid-2-col">
+                    <div class="card glass-panel">
+                        <h3>The Problem</h3>
+                        <p>Predicting the desirability of startups across three classes: <strong>Emerging</strong>, <strong>Growing</strong>, and <strong>High Desirability</strong>. Initially plagued by target leakage, we redefined the problem as a strict 3-class classification task using only raw business fundamentals and semantic role texts.</p>
+                    </div>
+                    <div class="card glass-panel">
+                        <h3>The Solution</h3>
+                        <p>A novel 3-phase hybrid architecture closing the loop between unsupervised probability and deep learning. By using a GMM's uncertainty to dynamically gate a DistilBERT text stream and a Tabular MLP, we achieve true multimodal synergy.</p>
+                    </div>
+                </div>
+                <div class="stats-row mt-4">
+                    <div class="stat-box glass-panel">
+                        <h4>Dataset Size</h4>
+                        <span class="stat-val">1,000</span>
+                    </div>
+                    <div class="stat-box glass-panel">
+                        <h4>Phase 1 Baseline</h4>
+                        <span class="stat-val">0.330</span>
+                        <span class="stat-label">Macro-F1 (GMM)</span>
+                    </div>
+                    <div class="stat-box glass-panel">
+                        <h4>Phase 2 Hybrid</h4>
+                        <span class="stat-val">0.783</span>
+                        <span class="stat-label">Macro-F1</span>
+                    </div>
+                    <div class="stat-box glass-panel highlight">
+                        <h4>Synergistic Hybrid</h4>
+                        <span class="stat-val">Phase 3</span>
+                        <span class="stat-label">Entropy-Gated</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION: INTERACTIVE EXPLORER -->
+            <section id="interactive" class="view-section">
+                <header>
+                    <h2 class="gradient-text">Interactive Predictor</h2>
+                    <p class="subtitle">Select a startup to view live model predictions and GMM entropy.</p>
+                </header>
+                <div class="card glass-panel" style="margin-bottom: 2rem;">
+                    <label for="startup-select" style="display:block; margin-bottom: 0.5rem; color: var(--text-secondary); font-weight: bold;">Select a Startup:</label>
+                    <select id="startup-select" style="width: 100%; padding: 12px; border-radius: 8px; background: #0D1117; color: #E6EDF3; border: 1px solid var(--panel-border); font-family: 'Inter', sans-serif; font-size: 1rem; outline: none;"></select>
+                </div>
+
+                <div class="grid-2-col">
+                    <!-- Raw Data Box -->
+                    <div class="card glass-panel">
+                        <h3 style="border-bottom: 1px solid var(--panel-border); padding-bottom: 1rem; margin-bottom: 1.5rem;">📊 Startup Raw Data</h3>
+                        <div style="display: grid; grid-template-columns: 120px 1fr; gap: 1rem; margin-bottom: 1rem;">
+                            <span style="color: var(--text-secondary); font-weight: 600;">Sector / HQ:</span>
+                            <span id="ui-sector" style="color: var(--text-primary); font-weight: bold;">-</span>
+                            
+                            <span style="color: var(--text-secondary); font-weight: 600;">Hiring Roles:</span>
+                            <span id="ui-roles" style="color: var(--text-primary); font-weight: bold;">-</span>
+                            
+                            <span style="color: var(--text-secondary); font-weight: 600;">Funding:</span>
+                            <span id="ui-funding" style="color: var(--text-primary); font-weight: bold;">-</span>
+                            
+                            <span style="color: var(--text-secondary); font-weight: 600;">Ratings:</span>
+                            <span id="ui-ratings" style="color: var(--text-primary); font-weight: bold;">-</span>
+                        </div>
+                    </div>
+
+                    <!-- Predictions Box -->
+                    <div class="card glass-panel">
+                        <h3 style="border-bottom: 1px solid var(--panel-border); padding-bottom: 1rem; margin-bottom: 1.5rem;">🤖 Model Predictions</h3>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                            
+                            <div style="background: rgba(0,0,0,0.2); padding: 1rem; border-radius: 8px;">
+                                <div style="color: var(--text-secondary); font-size: 0.85rem; font-weight: 600; margin-bottom: 0.3rem;">Ground Truth</div>
+                                <div id="ui-true" style="font-family: 'Outfit', sans-serif; font-size: 1.5rem; font-weight: 800;">-</div>
+                            </div>
+                            
+                            <div style="background: rgba(0,0,0,0.2); padding: 1rem; border-radius: 8px;">
+                                <div style="color: var(--text-secondary); font-size: 0.85rem; font-weight: 600; margin-bottom: 0.3rem;">Phase 3 GMM Entropy</div>
+                                <div id="ui-entropy" style="font-family: 'Outfit', sans-serif; font-size: 1.5rem; font-weight: 800;">-</div>
+                            </div>
+                            
+                            <div style="background: rgba(0,0,0,0.2); padding: 1rem; border-radius: 8px;">
+                                <div style="color: var(--text-secondary); font-size: 0.85rem; font-weight: 600; margin-bottom: 0.3rem;">SVM (Phase 1)</div>
+                                <div id="ui-svm" style="font-family: 'Outfit', sans-serif; font-size: 1.5rem; font-weight: 800;">-</div>
+                            </div>
+                            
+                            <div style="background: rgba(0,0,0,0.2); padding: 1rem; border-radius: 8px;">
+                                <div style="color: var(--text-secondary); font-size: 0.85rem; font-weight: 600; margin-bottom: 0.3rem;">XGBoost (Phase 1)</div>
+                                <div id="ui-xgb" style="font-family: 'Outfit', sans-serif; font-size: 1.5rem; font-weight: 800;">-</div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION: ARCHITECTURE -->
+            <section id="architecture" class="view-section">
+                <header>
+                    <h2 class="gradient-text">System Architecture</h2>
+                    <p class="subtitle">Phase 3: Entropy-Gated Synergistic Hybrid</p>
+                </header>
+                <div class="card glass-panel image-card">
+                    <img src="../outputs/results/architecture_diagram.png" alt="CATIVE Architecture Diagram">
+                    <div class="card-caption">
+                        <strong>The Innovation:</strong> The GMM's Shannon Entropy acts as a dynamic attention mechanism, deciding per-sample whether to trust semantic text features (DistilBERT) or structured tabular features (MLP).
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION: RESULTS & ABLATION -->
+            <section id="ablation" class="view-section">
+                <header>
+                    <h2 class="gradient-text">Results & Ablation Study</h2>
+                    <p class="subtitle">Validating the Multimodal Synergy</p>
+                </header>
+                <div class="card glass-panel">
+                    <table class="ablation-table">
+                        <thead>
+                            <tr>
+                                <th>Configuration</th>
+                                <th>Macro-F1</th>
+                                <th>Notes</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>GMM alone</td>
+                                <td>0.330</td>
+                                <td>Probabilistic baseline (Unsupervised)</td>
+                            </tr>
+                            <tr>
+                                <td>BERT only</td>
+                                <td>0.167</td>
+                                <td>Text stream alone is extremely weak</td>
+                            </tr>
+                            <tr>
+                                <td>Tabular MLP</td>
+                                <td>0.733</td>
+                                <td>Structured features only</td>
+                            </tr>
+                            <tr>
+                                <td>XGBoost (AML)</td>
+                                <td>0.749</td>
+                                <td>Best ensemble on tabular data</td>
+                            </tr>
+                            <tr>
+                                <td>SVM-RBF (AML)</td>
+                                <td>0.781</td>
+                                <td>Captures non-linear class boundaries</td>
+                            </tr>
+                            <tr>
+                                <td>Phase 2 DL Hybrid</td>
+                                <td>0.783</td>
+                                <td>Simple concatenation (BERT + Tabular)</td>
+                            </tr>
+                            <tr class="highlight-row">
+                                <td>Phase 3 Gated Hybrid</td>
+                                <td>Run NB9 ↑</td>
+                                <td>Entropy Gate (Synergistic Fusion)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- SECTION: DIAGNOSTIC -->
+            <section id="diagnostic" class="view-section">
+                <header>
+                    <h2 class="gradient-text">Diagnostic Analysis</h2>
+                    <p class="subtitle">Solving the "Growing" Class Boundary</p>
+                </header>
+                <div class="card glass-panel image-card">
+                    <img src="../outputs/results/23_phase3_entropy_analysis.png" alt="Entropy Analysis">
+                    <div class="card-caption">
+                        <strong>Targeting Uncertainty:</strong> Model errors are heavily concentrated in high-entropy (uncertain) samples, mostly around the ambiguous "Growing" class. Phase 3 feeds this exact uncertainty into the attention gate to adapt the fusion strategy dynamically.
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION: INTERPRETABILITY -->
+            <section id="interpretability" class="view-section">
+                <header>
+                    <h2 class="gradient-text">Interpretability</h2>
+                    <p class="subtitle">SHAP Exact Explainer Analysis</p>
+                </header>
+                <div class="card glass-panel image-card">
+                    <img src="../outputs/results/17_shap_importance.png" alt="SHAP Analysis">
+                    <div class="card-caption">
+                        <strong>Transparent Predictions:</strong> Culture, Salary, and Work-Life Balance ratings are the dominant predictors, proving the model learned genuine domain fundamentals rather than proxy artifacts.
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION: EDA GALLERY -->
+            <section id="eda" class="view-section">
+                <header>
+                    <h2 class="gradient-text">EDA Gallery</h2>
+                    <p class="subtitle">Exploratory Insights</p>
+                </header>
+                <div class="grid-2-col">
+                    <div class="card glass-panel image-card">
+                        <img src="../outputs/results/01_class_dist.png" alt="Class Distribution">
+                        <div class="card-caption">Strictly balanced 3-class target</div>
+                    </div>
+                    <div class="card glass-panel image-card">
+                        <img src="../outputs/results/05_corr_heatmap.png" alt="Correlation Heatmap">
+                        <div class="card-caption">Extreme multicollinearity in ratings</div>
+                    </div>
+                    <div class="card glass-panel image-card full-span">
+                        <img src="../outputs/results/06_pca_tsne.png" alt="PCA and t-SNE">
+                        <div class="card-caption">Heavy non-linear overlap mapping the core challenge</div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
